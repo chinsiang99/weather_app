@@ -12,16 +12,35 @@ const getCity = async (city) =>{
 
   const response = await fetch(base_url + query);
   const data = await response.json();
-  console.log(response);
-  console.log(data);
-  console.log(data[0].Key);
+  // console.log(response);
+  // console.log(data);
+  // console.log(data[0].Key);
   return data[0];
 };
 
-getCity("kuala lumpur")
-  .then(data=>console.log(data))
-  .catch(err=>console.log(err));
+// getCity("kuala lumpur")
+//   .then(data=>console.log(data))
+//   .catch(err=>console.log(err));
 
 // get current condition
 // url http://dataservice.accuweather.com/currentconditions/v1/{locationKey}
 // api documentation - https://developer.accuweather.com/accuweather-current-conditions-api/apis/get/currentconditions/v1/%7BlocationKey%7D
+const getWeather = async (id) =>{
+  const base = 'http://dataservice.accuweather.com/currentconditions/v1/';
+  const query = `${id}?apikey=${key}`;
+  const response = await fetch(base + query);
+  const data = await response.json();
+  // console.log(data);
+  return data[0];
+}
+
+// getWeather(233776);
+
+getCity('kuala lumpur')
+  .then(data=>{
+    return getWeather(data.Key);
+  }).then(data=>{
+    console.log(data);
+  }).catch(err=>{
+    console.log(err);
+  });
