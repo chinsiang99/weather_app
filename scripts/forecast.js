@@ -1,4 +1,4 @@
-// fetch api
+// fetch api related javascript
 
 // api key for AccuWeather APIs - limited 50 api request per day
 const key = "f8j2xjove6SPT7XbAJHG01DujzTmC5db"; 
@@ -12,8 +12,11 @@ const getCity = async (city) =>{
 
   const response = await fetch(base_url + query);
   const data = await response.json();
-  // console.log(response);
-  // console.log(data);
+  console.log(response);
+  if(!(response.status == 200 && data.length)){
+    throw new Error("Could not get city result!");
+  }
+  console.log(data);
   // console.log(data[0].Key);
   return data[0];
 };
@@ -30,17 +33,20 @@ const getWeather = async (id) =>{
   const query = `${id}?apikey=${key}`;
   const response = await fetch(base + query);
   const data = await response.json();
+  if(!(response.status == 200 && data.length)){
+    throw new Error("Could not get weather result!");
+  }
   // console.log(data);
   return data[0];
 }
 
 // getWeather(233776);
 
-getCity('kuala lumpur')
-  .then(data=>{
-    return getWeather(data.Key);
-  }).then(data=>{
-    console.log(data);
-  }).catch(err=>{
-    console.log(err);
-  });
+// getCity('kuala lumpur')
+//   .then(data=>{
+//     return getWeather(data.Key);
+//   }).then(data=>{
+//     console.log(data);
+//   }).catch(err=>{
+//     console.log(err);
+//   });
