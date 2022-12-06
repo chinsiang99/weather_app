@@ -3,10 +3,16 @@
 const cityForm = document.querySelector('form');
 const card = document.querySelector('.card');
 const details = document.querySelector('.details');
+const time = document.querySelector('img.time');
+const icon = document.querySelector('.icon img');
 
 const updateUI = (data) =>{
-  const cityDetails = data.cityDetails;
-  const weather = data.weather;
+
+  // destructure properties (maintainable & cleaner way)
+  const { cityDetails, weather} = data;
+
+  // const cityDetails = data.cityDetails;
+  // const weather = data.weather;
 
   details.innerHTML = `
     <h5 class="my-3">${cityDetails.EnglishName}</h5>
@@ -16,6 +22,23 @@ const updateUI = (data) =>{
       <span>&deg;C</span>
     </div>
   `;
+
+  if(card.classList.contains('d-none')){
+    card.classList.remove('d-none');
+  }
+
+  // update image and icon according to day night
+  const iconSrc = `img/icons/${weather.WeatherIcon}.svg`;
+  icon.setAttribute('src', iconSrc);
+
+  let timeSrc = null;
+  if(weather.IsDayTime){
+    timeSrc = 'img/day.svg';
+  }else{
+    timeSrc = 'img/night.svg';
+  }
+
+  time.setAttribute('src', timeSrc);
 };
 
 const updateCity = async (city) =>{
